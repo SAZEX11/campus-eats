@@ -6,8 +6,8 @@ const menuController = require('../controllers/menuController');
 const orderController = require('../controllers/orderController');
 
 router.post('/orders', orderController.createOrder);
-router.get('/menu', menuController.getMenu);
 router.get('/', homeController.getHome);
 router.get('/about', aboutController.getAbout);
+router.get('/restaurants/:id/menu', menuController.getMenuByRestaurant);
 
 module.exports = router;
