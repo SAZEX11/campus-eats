@@ -1,3 +1,4 @@
+```
 campus-eats/
 ├── config/
 │   └── db.js
@@ -25,3 +26,5 @@ campus-eats/
 ├── .gitignore
 ├── nodemon.json
 └── package.json
+
+```
