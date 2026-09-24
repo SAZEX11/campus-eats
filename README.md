@@ -1,30 +1,29 @@
-```
+```text
 campus-eats/
 ├── config/
 │   └── db.js
 ├── controllers/
-│   ├── homeController.js      (Controller — restaurants + stats + popular items)
+│   ├── homeController.js       (Controller — pages)
 │   ├── aboutController.js
 │   ├── menuController.js
-│   └── orderController.js     (Controller — full CRUD: create, read, update, cancel)
+│   ├── orderController.js
+│   └── apiController.js        (Controller — JSON API, new in Lab 5)
 ├── models/
-│   ├── Restaurant.js
-│   ├── MenuItem.js
-│   └── Order.js               (Model / entity class — CRUD + aggregation queries + a transaction)
+│   ├── Restaurant.js          (Model / entity class — reused by page & API controllers)
+│   ├── MenuItem.js            (Model / entity class — reused by page & API controllers)
+│   └── Order.js               (Model / entity class — CRUD + aggregation + transactions)
 ├── routes/
-│   └── index.js               (Routing — /, /about, /restaurants/:id/menu, POST /orders,
-│                                GET /orders/:id, POST /orders/:id/update, POST /orders/:id/cancel)
+│   ├── index.js               (Routing — page routes)
+│   └── api.js                 (Routing — /api/* JSON routes, new in Lab 5)
 ├── views/
 │   ├── partials/
-│   ├── index.ejs              (View — restaurants + stats bar + popular items)
+│   ├── index.ejs               (View — restaurants + stats bar + popular items)
 │   ├── about.ejs
-│   ├── menu.ejs               (View — order form now sends itemId)
-│   └── order_confirmation.ejs (View — real order, with update and cancel forms)
+│   ├── menu.ejs                (View — order form sends itemId)
+│   └── order_confirmation.ejs  (View — real order, with update and cancel forms)
 ├── public/
-├── app.js
+├── app.js                     (Mounts page & API routers, parses urlencoded & express.json)
 ├── .env
 ├── .gitignore
 ├── nodemon.json
 └── package.json
-
-```
