@@ -1,47 +1,42 @@
 ```text
 campus-eats/
 ├── config/
-│   ├── db.js
-│   └── mailer.js               (new — sendVerificationEmail, sendPasswordResetEmail via Gmail)
+│   ├── db.js                   (PostgreSQL — unchanged)
+│   ├── mongo.js                (new — MongoDB connection)
+│   └── mailer.js               (sendVerificationEmail,sendPasswordResetEmail via Gmail)
 ├── controllers/
 │   ├── homeController.js
 │   ├── aboutController.js
 │   ├── menuController.js
 │   ├── orderController.js
 │   ├── apiController.js
-│   ├── authController.js       (new — signup, login, logout, verifyEmail,
-│   │                             forgot/reset password)
-│   ├── adminController.js      (new — restaurant admin dashboard)
-│   └── superAdminController.js (new — restaurants + granting admin access)
+│   ├── authController.js       (signup, login, logout, verifyEmail, forgot/reset password)
+│   ├── adminController.js      (restaurant admin dashboard — now also loads feedback)
+│   ├── superAdminController.js (restaurants + granting admin access)
+│   └── feedbackController.js   (new — submitFeedback)
 ├── middleware/
-│   └── auth.js                 (new — requireAuth, requireAdmin, requireSuperAdmin,
-│                                 requireAuthApi)
+│   └── auth.js                 (requireAuth, requireAdmin, requireSuperAdmin, requireAuthApi)
 ├── models/
-│   ├── Restaurant.js           (getAllRestaurants and getRestaurantById now filter
-│   │                            is_active; adds getAllRestaurantsForAdmin,
-│   │                            createRestaurantBySuperAdmin, deactivateRestaurant,
-│   │                            getRestaurantByOwnerId)
+│   ├── Restaurant.js           (getAllRestaurants and getRestaurantById filter is_active; adds getAllRestaurantsForAdmin, createRestaurantBySuperAdmin, deactivateRestaurant, getRestaurantByOwnerId)
 │   ├── MenuItem.js             (adds createMenuItem)
-│   ├── Order.js                (createOrder now takes and stores customerId)
-│   └── User.js                 (new — createUser, findByEmail, verifyPassword,
-│                                 markVerified, promoteToAdmin, setResetToken,
-│                                 findByResetToken, resetPassword)
+│   ├── Order.js                (createOrder takes and stores customerId)
+│   ├── User.js                 (createUser, findByEmail, verifyPassword, markVerified, promoteToAdmin, setResetToken, findByResetToken, resetPassword)
+│   └── Feedback.js             (new — createFeedback, getFeedbackForRestaurant)
 ├── routes/
-│   ├── index.js                (adds /signup, /login, /logout, /verify/:token,
-│   │                             /forgot-password, /reset-password/:token,
-│   │                             /admin/dashboard, /admin/menu, /superadmin/*;
-│   │                             POST /orders now behind requireAuth)
+│   ├── index.js                (adds /signup, /login, /logout, /verify/:token, /forgot-password, /reset-password/:token, /admin/dashboard, /admin/menu, /superadmin/*; POST /orders now behind requireAuth; temporary /mongo-test route removed; adds POST /restaurants/:id/feedback)
 │   └── api.js                  (POST /api/orders now behind requireAuthApi)
 ├── views/
 │   ├── partials/
-│   │   └── header.ejs          (nav now reflects all three roles)
-│   ├── signup.ejs              (new — customer accounts only)
-│   ├── signup-success.ejs      (new)
-│   ├── login.ejs               (new — one shared login page, adds forgot-password link)
-│   ├── verify-success.ejs      (new)
-│   ├── forgot-password.ejs     (new)
-│   ├── reset-password.ejs      (new)
-│   ├── admin-dashboard.ejs     (new)
-│   └── superadmin-dashboard.ejs (new)
-├── app.js                      (adds express-session, res.locals.user)
-└── .env                        (adds SESSION_SECRET, GMAIL_USER, GMAIL_APP_PASSWORD)
+│   │   └── header.ejs          (nav reflects all three roles)
+│   ├── signup.ejs              (customer accounts only)
+│   ├── signup-success.ejs      
+│   ├── login.ejs               (shared login page with forgot-password link)
+│   ├── verify-success.ejs      
+│   ├── forgot-password.ejs     
+│   ├── reset-password.ejs      
+│   ├── menu.ejs                (adds the feedback form)
+│   ├── admin-dashboard.ejs     (restaurant admin dashboard — adds the Customer Feedback section)
+│   └── superadmin-dashboard.ejs
+├── app.js                      (adds express-session, res.locals.user, calls connectMongo() once at startup)
+├── package.json                (adds mongodb dependency)
+└── .env                        (adds SESSION_SECRET, GMAIL_USER, GMAIL_APP_PASSWORD, MONGO_URI)

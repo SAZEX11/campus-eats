@@ -3,6 +3,10 @@ const path = require('path');
 const dotenv = require('dotenv');
 dotenv.config();
 
+// mongodb
+const { connectMongo } = require('./config/mongo');
+connectMongo().catch(err => console.error('MongoDB connection failed:', err));
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 

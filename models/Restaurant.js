@@ -1,5 +1,5 @@
 const db = require('../config/db'); 
- 
+
 exports.getAllRestaurants = () => {
   return db.any('SELECT * FROM restaurants WHERE is_active = true ORDER BY id');
 };
@@ -11,9 +11,14 @@ exports.getRestaurantById = (id) => {
   );
 };
 
+// Admin Dashboard - fetch restaurant by owner ID
+exports.getRestaurantByOwnerId = (ownerId) => {
+  return db.oneOrNone(
+    'SELECT * FROM restaurants WHERE owner_id = $1 ORDER BY id DESC LIMIT 1',
+    [ownerId]);
+  };
 
-
-// super admin
+// Super Admin
 exports.getAllRestaurantsForAdmin = () => {
   return db.any('SELECT * FROM restaurants ORDER BY id');
 };

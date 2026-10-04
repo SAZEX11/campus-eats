@@ -1,5 +1,6 @@
 const superAdminController = require('../controllers/superAdminController');
 const adminController = require('../controllers/adminController');
+const feedbackController = require('../controllers/feedbackController');
 const express = require('express');
 const router = express.Router();
 const homeController = require('../controllers/homeController');
@@ -29,15 +30,14 @@ router.post('/login', authController.login);
 router.post('/logout', authController.logout);
 router.get('/verify/:token', authController.verifyEmail);
 
-// --- ADD THIS LINE BACK ---
 router.post('/orders', requireAuth, orderController.createOrder);
 router.get('/orders/:id', orderController.getOrder); 
-// --------------------------
 
 router.get('/', homeController.getHome);
 router.get('/about', aboutController.getAbout);
 router.get('/restaurants/:id/menu', menuController.getMenuByRestaurant);
 router.post('/orders/:id/update', orderController.updateOrder);
 router.post('/orders/:id/cancel', orderController.cancelOrder); 
+router.post('/restaurants/:id/feedback', feedbackController.submitFeedback);
 
 module.exports = router;

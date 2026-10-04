@@ -26,10 +26,6 @@ async function markVerified(token) {
   );
 }
 
-module.exports = { createUser, findByEmail, verifyPassword, markVerified };
-
-
-
 async function setResetToken(email, token, expires) {
   return db.oneOrNone(
     `UPDATE users SET reset_token = $1, reset_token_expires = $2
@@ -54,6 +50,21 @@ async function resetPassword(userId, newPassword) {
   );
 }
 
-module.exports.setResetToken = setResetToken;
-module.exports.findByResetToken = findByResetToken;
-module.exports.resetPassword = resetPassword;
+async function promoteToAdmin(userId, restaurantId) {
+  return db.tx(async (t) => {
+    await t.none("UPDATE users SET role = 'admin' WHERE id = $1", [userId]);
+    await t.none('UPDATE restaurants SET owner_id = $1 WHERE id = $2', [userId, restaurantId]);
+  });
+}
+
+// Single export at the very end of the file
+module.exports = {
+  createUser,
+  findByEmail,
+  verifyPassword,
+  markVerified,
+  setResetToken,
+  findByResetToken,
+  resetPassword,
+  promoteToAdmin,
+};
