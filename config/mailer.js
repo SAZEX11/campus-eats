@@ -24,7 +24,7 @@ module.exports = { sendVerificationEmail };
 
 
 async function sendPasswordResetEmail(toEmail, token) {
-  const link = `http://localhost:3000/reset-password/${token}`;
+  const link = `${process.env.APP_URL}/reset-password/${token}`;
   await transporter.sendMail({
     from: `"Campus Eats" <${process.env.GMAIL_USER}>`,
     to: toEmail,
